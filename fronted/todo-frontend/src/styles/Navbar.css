@@ -1,0 +1,131 @@
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: var(--navbar-text);
+  padding: 1rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInTop 0.6s ease-in-out;
+  transition: all 0.3s ease;
+}
+
+.navbar h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--navbar-text);
+  display: flex;
+  align-items: center;
+  animation: slideInLeft 0.5s ease;
+}
+
+.task-icon {
+  margin-right: 10px;
+  color: var(--icon-color);
+  font-size: 2rem;
+  animation: popIn 0.4s ease;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 1rem; /* Evita que el logout-icon toque el borde derecho */
+  animation: slideInRight 0.5s ease;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: var(--navbar-text);
+}
+
+.profile-icon,
+.logout-icon {
+  color: var(--icon-color);
+  font-size: 1.9rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  padding: 0.3rem;
+  border-radius: 50%;
+}
+
+.profile-icon:hover,
+.logout-icon:hover {
+  color: var(--hover-icon);
+  transform: scale(1.2);
+  box-shadow: 0 0 10px var(--hover-icon);
+  background-color: rgba(0, 0, 0, 0.05); /* Burbuja de fondo sutil */
+}
+
+/* Animations */
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .navbar h1 {
+    font-size: 1.6rem;
+  }
+
+  .user-info {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-right: 0.5rem; /* Ajuste menor en pantallas pequeñas */
+  }
+}

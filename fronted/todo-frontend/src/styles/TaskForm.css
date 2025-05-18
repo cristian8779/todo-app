@@ -1,0 +1,132 @@
+/* ===== Container & Form Wrapper ===== */
+.note-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.note-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 420px;
+}
+.note-form:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+.note-form.expanded {
+  padding-bottom: 2rem;
+}
+
+/* ===== Inputs & Textarea ===== */
+.note-title-input,
+.note-description-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.note-title-input:focus,
+.note-description-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  outline: none;
+}
+.note-description-input {
+  min-height: 3rem;
+  resize: vertical;
+}
+
+/* ===== Footer & Buttons ===== */
+.note-form-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.note-form-footer button[type="submit"] {
+  flex: 1 1 auto;
+  min-width: 100px;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: #6366f1;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 10px;
+  margin-left: 0;
+  margin-right: 0;
+}
+.note-form-footer button[type="submit"]:hover:not(:disabled) {
+  background: #4f46e5;
+  transform: translateY(-2px);
+}
+.note-form-footer button[type="submit"]:disabled {
+  background: #a1a1aa;
+  cursor: not-allowed;
+}
+
+/* ===== Color Palette ===== */
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+}
+.color-swatch {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+.color-swatch.selected {
+  border-color: #6366f1;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .note-form-container {
+    padding: 20px 0;
+  }
+  .note-form {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  .note-form-footer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .note-form-footer button[type="submit"] {
+    width: 100%;
+  }
+}

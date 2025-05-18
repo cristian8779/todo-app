@@ -1,0 +1,205 @@
+/* --- Overlay del modal --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+/* --- Contenedor principal del modal --- */
+.task-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-width: 90%;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  animation: slideIn 0.3s forwards;
+}
+
+@keyframes slideIn {
+  0% {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+  }
+  100% {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+  }
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* --- Título y descripción --- */
+.modal-title,
+.modal-description {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: transparent;
+  color: inherit;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* --- Acciones e íconos --- */
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.action-icon:hover {
+  color: #007aff;
+  transform: scale(1.2);
+}
+
+.action-icon.selected {
+  color: #007aff;
+}
+
+/* --- Paleta de colores --- */
+.color-palettes {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.color-palette-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-palette-btn.selected {
+  border-color: #333;
+  transform: scale(1.1);
+}
+
+.color-palette-btn:hover {
+  transform: scale(1.15);
+}
+
+/* --- Selector de fuente --- */
+.font-size-picker {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.font-size-btn {
+  padding: 5px 10px;
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.font-size-btn:hover {
+  background-color: #e2e2e2;
+  transform: scale(1.05);
+}
+
+.font-size-btn.selected {
+  background-color: #d0d0d0;
+}
+
+/* --- Ejemplo visual de tamaño de fuente --- */
+.font-example {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.font-example p {
+  margin: 0;
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* --- Responsividad --- */
+@media (max-width: 768px) {
+  .task-modal {
+      width: 90%;
+      padding: 15px;
+  }
+
+  .modal-title {
+      font-size: 18px;
+  }
+
+  .modal-description,
+  .modal-actions {
+      font-size: 14px;
+  }
+
+  .action-icon {
+      font-size: 18px;
+  }
+
+  .color-palette-btn {
+      width: 22px;
+      height: 22px;
+  }
+
+  .font-size-picker {
+      flex-direction: column;
+  }
+
+  .font-size-btn {
+      font-size: 14px;
+      padding: 4px 8px;
+  }
+
+  .font-example {
+      flex-direction: column;
+      gap: 8px;
+  }
+}

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    networks:
+      - app-net
+
+  frontend:
+    build: ./fronted/todo-frontend  # El frontend sirve en el puerto 80
+    ports:
+      - "80:80"  # El frontend sirve en el puerto 80
+    networks:
+      - app-net
+    depends_on:
+      - backend
+
+networks:
+  app-net:
+    driver: bridge

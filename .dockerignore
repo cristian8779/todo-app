@@ -1,0 +1,26 @@
+# Ignorar dependencias locales (serán instaladas por Docker)
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Archivos de entorno
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Configuración de editor
+.vscode
+.idea
+
+# Build y dist (si los generas fuera del contenedor)
+dist
+build

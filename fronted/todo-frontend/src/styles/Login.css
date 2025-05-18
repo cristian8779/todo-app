@@ -1,0 +1,156 @@
+/* Fondo con degradado pastel */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fceaff, #e0f7fa);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Contenedor del formulario */
+.auth-form {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease;
+}
+
+/* Título */
+.auth-form h2 {
+  text-align: center;
+  color: #6a5acd;
+  margin-bottom: 24px;
+}
+
+/* Contenedor del input con icono */
+.input-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+/* Icono dentro del input */
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a393e6;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* Inputs */
+.input-container input {
+  width: 100%;
+  padding: 12px 14px 12px 40px; /* Deja espacio para el icono */
+  border: 1.5px solid #d6cdea;
+  border-radius: 12px;
+  background: #f9f7fc;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+}
+
+.input-container input:focus {
+  border-color: #a393e6;
+  background-color: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(200, 170, 255, 0.2);
+}
+
+/* Inputs enfocados */
+.input-container.focused input {
+  border-color: #a393e6;
+}
+
+/* Mostrar/ocultar contraseña */
+.toggle-password-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #a393e6;
+  font-size: 18px;
+  outline: none;
+  z-index: 2;
+}
+
+.toggle-password-btn:hover {
+  color: #7c68d0;
+}
+
+.toggle-password-btn:focus {
+  outline: none;
+}
+
+/* Botón de enviar */
+.login-button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #b39ddb;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  background-color: #9575cd;
+}
+
+.login-button:disabled {
+  background-color: #d1c4e9;
+  cursor: not-allowed;
+}
+
+/* Enlace a registro */
+.register-link {
+  color: #7c68d0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  color: #5e4db2;
+}
+
+/* Mensaje de error */
+.error-message {
+  background-color: #ffe0e0;
+  color: #d32f2f;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 16px;
+  border: 1px solid #ffc1c1;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-form {
+    padding: 24px 20px;
+  }
+}
