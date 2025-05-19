@@ -1,7 +1,7 @@
 // src/api/auth.js
 import axios from 'axios';
 
-const API = 'http://192.168.147.91:5000/api/users';
+const API = 'http://localhost:5100/api/users';
 
 // Función para registrar al usuario
 export const register = async (user) => {

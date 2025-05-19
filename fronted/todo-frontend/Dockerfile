@@ -14,9 +14,8 @@ WORKDIR /app
 
 COPY --from=build /app/build /app/build
 
-# Instalar `serve` con limpieza previa de la cache de npm
 RUN npm cache clean --force && npm install -g serve
 
-CMD ["serve", "-s", "build", "-l", "80"]
+CMD ["serve", "-s", "build", "-l", "3001"]
 
-EXPOSE 80
+EXPOSE 3001

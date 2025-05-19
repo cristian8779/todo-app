@@ -4,16 +4,16 @@ services:
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
+      - "5100:5100"
     env_file:
       - ./backend/.env
     networks:
       - app-net
 
   frontend:
-    build: ./fronted/todo-frontend  # El frontend sirve en el puerto 80
+    build: ./fronted/todo-frontend
     ports:
-      - "80:80"  # El frontend sirve en el puerto 80
+      - "3100:3100"  # El frontend sirve en el puerto 3100
     networks:
       - app-net
     depends_on:

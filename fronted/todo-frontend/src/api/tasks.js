@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = 'http://192.168.147.91:5000/api';
+const API = 'http://localhost:5100/api';
 
 // Verifica que el token esté presente
 export const getTasks = (token) => {
