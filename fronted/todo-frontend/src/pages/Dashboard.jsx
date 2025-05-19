@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   // Conexión Socket.IO
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+const newSocket = io('http://192.168.147.91:5000');
     setSocket(newSocket);
 
     newSocket.on('taskUpdated', (updatedTask) => {

@@ -1,23 +1,18 @@
-# Usa una imagen oficial de Node.js como base
 FROM node:18
 
-# Crea la carpeta de trabajo en el contenedor
 WORKDIR /app
 
-# Copia los archivos de definición de dependencias (para caché)
+# Copia los archivos de dependencias
 COPY package*.json ./
 
-# Instala las dependencias del backend
+# Instala las dependencias
 RUN npm install
 
 # Copia el resto del código fuente
 COPY . .
 
-# Copia el archivo .env (si lo usas)
-COPY .env ./
-
-# Expone el puerto que usarás (debe coincidir con el del .env o el puerto que defines en el código)
+# Expone el puerto
 EXPOSE 5000
 
-# Comando que ejecuta tu servidor
+# Comando para iniciar el servidor
 CMD ["node", "server.js"]
