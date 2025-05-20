@@ -1,7 +1,8 @@
 // src/api/auth.js
 import axios from 'axios';
 
-const API = 'http://localhost:5100/api/users';
+// Usamos la variable de entorno para la URL base del backend
+const API = process.env.REACT_APP_API;
 
 // Función para registrar al usuario
 export const register = async (user) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';  // Importar useCallback
+import React, { useEffect, useState, useCallback } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +20,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  // Use useCallback para memorizar la función y evitar la advertencia
+  // Función para cargar tareas, memorizada para evitar múltiples renders innecesarios
   const fetchTasks = useCallback(async () => {
     try {
       setLoading(true);
@@ -40,11 +40,13 @@ const Dashboard = () => {
     } else {
       fetchTasks();
     }
-  }, [token, navigate, fetchTasks]);  // Añadir fetchTasks a las dependencias
+  }, [token, navigate, fetchTasks]);
 
-  // Conexión Socket.IO
+  // Conexión Socket.IO - usar la IP pública y puerto de tu backend
   useEffect(() => {
-const newSocket = io('http://localhost:5100');
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://135.119.192.98:5100';
+    const newSocket = io(SOCKET_URL);
+
     setSocket(newSocket);
 
     newSocket.on('taskUpdated', (updatedTask) => {
@@ -116,7 +118,7 @@ const newSocket = io('http://localhost:5100');
           t._id === id ? { ...t, status: newStatus } : t
         )
       );
-      notify(`Tarea marcada como "${newStatus}"`, 'info');
+      notify(`Tarea marcada como "${newStatus}"`, 'info'); // corregido: uso correcto de comillas invertidas
 
       if (socket) {
         socket.emit('taskUpdated', { _id: id, status: newStatus });

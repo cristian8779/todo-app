@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API = 'http://localhost:5100/api';
+
+const API = process.env.REACT_APP_API || 'http://localhost:5100/api';
 
 // Verifica que el token esté presente
 export const getTasks = (token) => {
@@ -12,7 +13,7 @@ export const getTasks = (token) => {
     return response;
   })
   .catch(error => {
-    console.error("Error al obtener tareas:", error.response || error); // Captura el error de la API
+    console.error("Error al obtener tareas:", error.response || error);
     throw error;
   });
 };
@@ -24,11 +25,11 @@ export const createTask = (task, token) => {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(response => {
-    console.log('Tarea creada:', response.data);  // Verifica la respuesta de la tarea creada
+    console.log('Tarea creada:', response.data);
     return response;
   })
   .catch(error => {
-    console.error("Error al crear tarea:", error.response || error); // Captura el error de la API
+    console.error("Error al crear tarea:", error.response || error);
     throw error;
   });
 };
@@ -40,11 +41,11 @@ export const updateTask = (id, updates, token) => {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(response => {
-    console.log('Tarea actualizada:', response.data);  // Verifica la respuesta de la tarea actualizada
+    console.log('Tarea actualizada:', response.data);
     return response;
   })
   .catch(error => {
-    console.error("Error al actualizar tarea:", error.response || error); // Captura el error de la API
+    console.error("Error al actualizar tarea:", error.response || error);
     throw error;
   });
 };
@@ -55,11 +56,11 @@ export const deleteTask = (id, token) => {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(response => {
-    console.log('Tarea eliminada:', response.data);  // Verifica la respuesta de la tarea eliminada
+    console.log('Tarea eliminada:', response.data);
     return response;
   })
   .catch(error => {
-    console.error("Error al eliminar tarea:", error.response || error); // Captura el error de la API
+    console.error("Error al eliminar tarea:", error.response || error);
     throw error;
   });
 };
