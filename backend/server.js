@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 require('dotenv').config();
 
 const app = express();
-const server = http.createServer(app); // ⬅️ Usamos http para trabajar con socket.io
+const server = http.createServer(app); // ⬅ Usamos http para trabajar con socket.io
 
 // Middlewares
 app.use(cors());
@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {
   .then(() => console.log('✅ MongoDB conectado'))
   .catch((err) => console.error('❌ Error conectando a MongoDB:', err));
 
-// Manejo de eventos de reconexión de MongoDB
+// Eventos de conexión a Mongo
 mongoose.connection.on('disconnected', () => {
   console.log('🔴 MongoDB desconectado');
 });
@@ -33,15 +33,15 @@ mongoose.connection.on('error', (err) => {
 // Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: '*', // Ajusta si tu frontend está en otro dominio
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });
 
-// Guarda la instancia de io para usarla en rutas/controladores
+// Guardamos io para usarlo luego en controladores
 app.set('io', io);
 
-// Manejo de conexiones de clientes
+// Socket.io - conexión
 io.on('connection', (socket) => {
   console.log('🟢 Cliente conectado:', socket.id);
 
@@ -50,15 +50,20 @@ io.on('connection', (socket) => {
   });
 });
 
-// Rutas
+// ✅ Ruta de prueba
+app.get('/api', (req, res) => {
+  res.send('👋 Bienvenido a la API de tu app');
+});
+
+// Rutas reales
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// Iniciar servidor con WebSocket
-const PORT = process.env.PORT || 3000;
+// Iniciar servidor
+const PORT = process.env.PORT;
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
