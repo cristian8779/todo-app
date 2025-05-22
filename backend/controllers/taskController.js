@@ -25,7 +25,7 @@ exports.createTask = async (req, res) => {
 
     await task.save();
 
-    io.emit('taskCreated', task); // 🔴 Emitir evento en tiempo real
+    if (io) io.emit('taskCreated', task); // 🔴 Validar que io exista
 
     res.status(201).json(task);
   } catch (err) {
@@ -59,7 +59,7 @@ exports.updateTask = async (req, res) => {
       return res.status(404).json({ error: "Tarea no encontrada o no autorizada" });
     }
 
-    io.emit('taskUpdated', updatedTask); // 🔴 Emitir actualización
+    if (io) io.emit('taskUpdated', updatedTask); // 🔴 Validar que io exista
 
     res.status(200).json(updatedTask);
   } catch (err) {
@@ -79,7 +79,7 @@ exports.deleteTask = async (req, res) => {
       return res.status(404).json({ error: "Tarea no encontrada o no autorizada" });
     }
 
-    io.emit('taskDeleted', deletedTask._id); // 🔴 Emitir eliminación (solo el ID puede ser suficiente)
+    if (io) io.emit('taskDeleted', deletedTask._id); // 🔴 Validar que io exista
 
     res.status(200).json({ message: "Tarea eliminada con éxito" });
   } catch (err) {

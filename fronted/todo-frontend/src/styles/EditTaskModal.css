@@ -165,6 +165,35 @@
 }
 
 /* --- Responsividad --- */
+
+/* Tablets y móviles grandes */
+@media (max-width: 1024px) {
+  .task-modal {
+    width: 400px;
+    max-width: 90%;
+    padding: 18px;
+  }
+  .modal-title {
+    font-size: 18px;
+  }
+  .modal-description,
+  .modal-actions {
+    font-size: 15px;
+  }
+  .action-icon {
+    font-size: 18px;
+  }
+  .color-palette-btn {
+    width: 24px;
+    height: 24px;
+  }
+  .font-size-btn {
+    font-size: 15px;
+    padding: 5px 9px;
+  }
+}
+
+/* Móviles medianos y pequeños */
 @media (max-width: 768px) {
   .task-modal {
       width: 90%;
@@ -201,5 +230,35 @@
   .font-example {
       flex-direction: column;
       gap: 8px;
+  }
+}
+
+/* Pantallas muy pequeñas (teléfonos pequeños) */
+@media (max-width: 480px) {
+  .task-modal {
+    width: 95%;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  .modal-title {
+    font-size: 16px;
+  }
+  .modal-description,
+  .modal-actions {
+    font-size: 13px;
+  }
+  .action-icon {
+    font-size: 16px;
+  }
+  .color-palette-btn {
+    width: 20px;
+    height: 20px;
+  }
+  .font-size-btn {
+    font-size: 13px;
+    padding: 3px 7px;
+  }
+  .font-example {
+    font-size: 13px;
   }
 }

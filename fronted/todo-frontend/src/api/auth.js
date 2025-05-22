@@ -1,8 +1,7 @@
-// src/api/auth.js
 import axios from 'axios';
 
-// Usamos la variable de entorno para la URL base del backend
-const API = process.env.REACT_APP_API;
+// URL base del backend apuntando a /api/users
+const API = 'http://20.251.145.196:5100/api/users';
 
 // Función para registrar al usuario
 export const register = async (user) => {
@@ -11,7 +10,7 @@ export const register = async (user) => {
     return response.data;
   } catch (error) {
     console.error('Error en el registro:', error);
-    throw error; // Lanza el error para que pueda ser capturado en el componente
+    throw error;
   }
 };
 
@@ -19,9 +18,9 @@ export const register = async (user) => {
 export const login = async (user) => {
   try {
     const response = await axios.post(`${API}/login`, user);
-    return response.data; // Asegúrate de que la respuesta tenga un token
+    return response.data;
   } catch (error) {
     console.error('Error en el login:', error);
-    throw error; // Lanza el error para que pueda ser capturado en el componente
+    throw error;
   }
 };

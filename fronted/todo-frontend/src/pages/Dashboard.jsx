@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react'; 
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 import Navbar from '../components/Navbar';
 import TaskCard from '../components/TaskCard';
@@ -11,17 +11,19 @@ import { getTasks, deleteTask, updateTask, createTask } from '../api/tasks';
 
 import '../styles/Dashboard.css';
 
+const SOCKET_URL = 'http://20.251.145.196:5100';
+
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [socket, setSocket] = useState(null);
 
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  // Función para cargar tareas, memorizada para evitar múltiples renders innecesarios
+  // Traer tareas
   const fetchTasks = useCallback(async () => {
+    if (!token) return;
     try {
       setLoading(true);
       const res = await getTasks(token);
@@ -34,6 +36,7 @@ const Dashboard = () => {
     }
   }, [token]);
 
+  // Verificar token y cargar tareas
   useEffect(() => {
     if (!token) {
       navigate('/');
@@ -42,113 +45,109 @@ const Dashboard = () => {
     }
   }, [token, navigate, fetchTasks]);
 
-  // Conexión Socket.IO - usar la IP pública y puerto de tu backend
+  // Conexión socket.io
   useEffect(() => {
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://135.119.192.98:5100';
-    const newSocket = io(SOCKET_URL);
+    if (!token) return;
 
-    setSocket(newSocket);
+    const socket = io(SOCKET_URL, {
+      auth: { token },
+      cors: {
+        origin: '*',
+      },
+      autoConnect: true,
+    });
 
-    newSocket.on('taskUpdated', (updatedTask) => {
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task._id === updatedTask._id ? { ...task, ...updatedTask } : task
+    socket.on('connect', () => {
+      console.log('[socket] conectado:', socket.id);
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error('[socket] error:', err.message);
+    });
+
+    socket.on('taskCreated', (newTask) => {
+      setTasks((prev) =>
+        prev.some((t) => t._id === newTask._id) ? prev : [...prev, newTask]
+      );
+    });
+
+    socket.on('taskUpdated', (updatedTask) => {
+      setTasks((prev) =>
+        prev.map((t) =>
+          t._id === updatedTask._id ? { ...t, ...updatedTask } : t
         )
       );
     });
 
-    newSocket.on('taskCreated', (newTask) => {
-      setTasks((prevTasks) => {
-        const alreadyExists = prevTasks.some((t) => t._id === newTask._id);
-        return alreadyExists ? prevTasks : [...prevTasks, newTask];
-      });
-    });
-
-    newSocket.on('taskDeleted', (deletedTaskId) => {
-      setTasks((prevTasks) =>
-        prevTasks.filter((task) => task._id !== deletedTaskId)
-      );
+    socket.on('taskDeleted', (deletedTaskId) => {
+      setTasks((prev) => prev.filter((t) => t._id !== deletedTaskId));
     });
 
     return () => {
-      newSocket.disconnect();
+      socket.disconnect();
     };
-  }, []);
+  }, [token]);
 
+  // Notificaciones
   const notify = (message, type = 'success') => {
     toast[type](message);
   };
 
+  // Crear tarea
   const handleCreate = async (task) => {
+    if (!token) return;
     try {
-      const res = await createTask(task, token);
+      await createTask(task, token);
       notify('Tarea creada');
-
-      if (socket) {
-        socket.emit('taskCreated', res.data);
-      }
     } catch (err) {
       notify('No se pudo crear la tarea', 'error');
       console.error(err);
     }
   };
 
+  // Eliminar tarea
   const handleDelete = async (id) => {
+    if (!token) return;
     try {
       await deleteTask(id, token);
-      setTasks((prev) => prev.filter((task) => task._id !== id));
       notify('Tarea eliminada');
-
-      if (socket) {
-        socket.emit('taskDeleted', id);
-      }
     } catch (err) {
       notify('No se pudo eliminar la tarea', 'error');
     }
   };
 
+  // Cambiar estado tarea
   const handleToggleStatus = async (id) => {
+    if (!token) return;
     const task = tasks.find((t) => t._id === id);
+    if (!task) return;
+
     const newStatus = task.status === 'pendiente' ? 'completada' : 'pendiente';
 
     try {
       await updateTask(id, { status: newStatus }, token);
-      setTasks((prev) =>
-        prev.map((t) =>
-          t._id === id ? { ...t, status: newStatus } : t
-        )
-      );
-      notify(`Tarea marcada como "${newStatus}"`, 'info'); // corregido: uso correcto de comillas invertidas
-
-      if (socket) {
-        socket.emit('taskUpdated', { _id: id, status: newStatus });
-      }
+      notify(`Tarea marcada como "${newStatus}"`, 'info');
     } catch (err) {
       notify('Error al cambiar el estado', 'error');
     }
   };
 
+  // Actualizar tarea
   const handleUpdate = async (id, updatedFields) => {
+    if (!token) return;
     try {
-      const res = await updateTask(id, updatedFields, token);
-      setTasks((prev) =>
-        prev.map((task) =>
-          task._id === id ? { ...task, ...res.data } : task
-        )
-      );
+      await updateTask(id, updatedFields, token);
       notify('Tarea actualizada');
-
-      if (socket) {
-        socket.emit('taskUpdated', res.data);
-      }
     } catch (err) {
       notify('No se pudo actualizar la tarea', 'error');
     }
   };
 
-  const filteredTasks = tasks.filter((task) =>
-    task.title.toLowerCase().includes(search.toLowerCase()) ||
-    task.description.toLowerCase().includes(search.toLowerCase())
+  // Filtrar tareas según búsqueda
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.title.toLowerCase().includes(search.toLowerCase()) ||
+      task.description.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -176,7 +175,7 @@ const Dashboard = () => {
           </div>
         ) : search !== '' && filteredTasks.length === 0 ? (
           <div className="empty-tasks-message">
-            <i className="fas fa-search empty-icon"></i>
+            <i className="fas fa-search empty-icon" aria-hidden="true" />
             <p>No hay notas que coincidan con la búsqueda.</p>
           </div>
         ) : tasks.length === 0 ? (
